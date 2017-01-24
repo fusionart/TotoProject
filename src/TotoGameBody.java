@@ -27,6 +27,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 
 public class TotoGameBody extends JFrame {
+	public JButton btnRun;
+	public int userNumbersCounter = 0;
 	public int[] userNumbersArr = { 0, 0, 0, 0, 0, 0 };
 	public int[] totoNumbersArrFirstRound = new int[6];
 	public int[] totoNumbersArrSecondRound = new int[6];
@@ -67,7 +69,7 @@ public class TotoGameBody extends JFrame {
 		contentPane.add(userNumbers);
 		userNumbers.setColumns(10);
 
-		JButton btnRun = new JButton("Run");
+		btnRun = new JButton("Run");
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				totoNumbers();
@@ -75,6 +77,7 @@ public class TotoGameBody extends JFrame {
 		});
 		btnRun.setBounds(466, 527, 89, 23);
 		contentPane.add(btnRun);
+		btnRun.setVisible(false);
 
 		Action numberAction = new AbstractAction() {
 			@Override
@@ -120,22 +123,35 @@ public class TotoGameBody extends JFrame {
 	}
 
 	private void addNumberToUserNumbers(int number, String addOrDel) {
+		userNumbersCounter++;
 		for (int i = 0; i < userNumbersArr.length; i++) {
 			if (userNumbersArr[i] == 0) {
 				userNumbersArr[i] = number;
 				break;
 			}
 		}
+		setRunButtonVisible(userNumbersCounter);
 		System.out.println(" array - " + Arrays.toString(userNumbersArr));
 	}
 
 	private void removeNumberFromUserNumbers(int number, String addOrDel) {
+		userNumbersCounter--;
 		for (int i = 0; i < userNumbersArr.length; i++) {
 			if (userNumbersArr[i] == number) {
 				userNumbersArr[i] = 0;
 			}
 		}
+		setRunButtonVisible(userNumbersCounter);
 		System.out.println(" array - " + Arrays.toString(userNumbersArr));
+	}
+
+	private void setRunButtonVisible(int userNumbersCounter2) {
+		if (userNumbersCounter == 6) {
+			btnRun.setVisible(true);
+		} else {
+			btnRun.setVisible(false);
+		}
+
 	}
 
 	private void totoNumbers() {
