@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.JTextField;
 import java.awt.event.ItemListener;
 import java.util.Arrays;
+import java.util.Random;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,9 @@ import javax.swing.JButton;
 
 public class TotoGameBody extends JFrame {
 	public int[] userNumbersArr = { 0, 0, 0, 0, 0, 0 };
+	public int[] totoNumbersArrFirstRound = new int[6];
+	public int[] totoNumbersArrSecondRound = new int[6];
+	public int[] totoNumbersArrThirdRound = new int[6];
 	private JPanel contentPane;
 	private JTextField userNumbers;
 
@@ -62,10 +66,11 @@ public class TotoGameBody extends JFrame {
 		userNumbers.setBounds(43, 35, 512, 45);
 		contentPane.add(userNumbers);
 		userNumbers.setColumns(10);
-		
+
 		JButton btnRun = new JButton("Run");
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				totoNumbers();
 			}
 		});
 		btnRun.setBounds(466, 527, 89, 23);
@@ -131,5 +136,39 @@ public class TotoGameBody extends JFrame {
 			}
 		}
 		System.out.println(" array - " + Arrays.toString(userNumbersArr));
+	}
+
+	private void totoNumbers() {
+		Random rnm = new Random();
+		Boolean checkRnmNum;
+		int rnmNum;
+		for (int i = 0; i < totoNumbersArrFirstRound.length; i++) {
+			do {
+				checkRnmNum = false;
+				rnmNum = rnm.nextInt(50);
+				for (int j = 0; j < i; j++) {
+					if (totoNumbersArrFirstRound[j] == rnmNum) {
+						checkRnmNum = true;
+					}
+				}
+			} while (rnmNum == 0 || checkRnmNum);
+			totoNumbersArrFirstRound[i] = rnmNum;
+		}
+		totoNumbersArrFirstRound = sortArrays(totoNumbersArrFirstRound);
+		System.out.println(Arrays.toString(totoNumbersArrFirstRound));
+	}
+
+	private int[] sortArrays(int[] arrayToSort) {
+		int temp;
+		for (int i = 0; i < arrayToSort.length; i++) {
+			for (int j = 0; j < arrayToSort.length - 1; j++) {
+				if (arrayToSort[j] > arrayToSort[j + 1]) {
+					temp = arrayToSort[j];
+					arrayToSort[j] = arrayToSort[j + 1];
+					arrayToSort[j + 1] = temp;
+				}
+			}
+		}
+		return arrayToSort;
 	}
 }
