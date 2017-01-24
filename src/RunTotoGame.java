@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class ExecuteTotoGame {
+public class RunTotoGame {
 
 	private JFrame frmTotoGame;
 
@@ -20,7 +20,7 @@ public class ExecuteTotoGame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ExecuteTotoGame window = new ExecuteTotoGame();
+					RunTotoGame window = new RunTotoGame();
 					window.frmTotoGame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,7 +32,7 @@ public class ExecuteTotoGame {
 	/**
 	 * Create the application.
 	 */
-	public ExecuteTotoGame() {
+	public RunTotoGame() {
 		initialize();
 	}
 
