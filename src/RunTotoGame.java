@@ -42,9 +42,9 @@ public class RunTotoGame {
 	private void initialize() {
 		frmTotoGame = new JFrame();
 		frmTotoGame.setTitle("Toto Game");
-		frmTotoGame.setBounds(100, 100, 450, 300);
+		frmTotoGame.setBounds(100, 100, 250, 250);
 		frmTotoGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		JButton btnNewButton = new JButton("Run game");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.addActionListener(new ActionListener() {
@@ -56,7 +56,7 @@ public class RunTotoGame {
 		});
 		btnNewButton.setBounds(55, 162, 126, 23);
 		frmTotoGame.add(btnNewButton);
-		
+
 		JLabel lblWelcome = new JLabel("WELCOME");
 		lblWelcome.setBackground(new Color(153, 255, 204));
 		lblWelcome.setForeground(new Color(153, 0, 0));
@@ -64,7 +64,7 @@ public class RunTotoGame {
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcome.setBounds(35, 25, 160, 120);
 		frmTotoGame.add(lblWelcome);
-		
+
 	}
 
 }
