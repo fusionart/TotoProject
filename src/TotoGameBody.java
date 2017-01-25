@@ -27,6 +27,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class TotoGameBody extends JFrame {
 	public JButton btnRun;
@@ -167,6 +169,8 @@ public class TotoGameBody extends JFrame {
 				button.setBounds(100 + offsetX, 250 + offsetY, 30, 30);
 				offsetX += 35;
 				contentPane.add(button);
+				UIManager.put("ToggleButton.select", Color.ORANGE);
+				SwingUtilities.updateComponentTreeUI(button);
 			}
 		}
 	}
