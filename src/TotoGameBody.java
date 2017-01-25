@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 
 import javax.swing.JFrame;
@@ -33,6 +34,7 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 
 public class TotoGameBody extends JFrame {
+	public JPanel numbersMatrixPanel;
 	public JButton btnRun;
 	public JToggleButton button;
 	public int userNumbersCounter = 0;
@@ -63,6 +65,7 @@ public class TotoGameBody extends JFrame {
 	private JLabel lblShowDraw;
 	private JLabel lblYouHave;
 	public JLabel lblPrice;
+	private JButton btnPlayAgain;
 
 	/**
 	 * Launch the application.
@@ -103,7 +106,7 @@ public class TotoGameBody extends JFrame {
 				showAdditionlInfo();
 			}
 		});
-		btnRun.setBounds(177, 400, 240, 30);
+		btnRun.setBounds(177, 435, 240, 30);
 		contentPane.add(btnRun);
 		btnRun.setVisible(false);
 
@@ -304,7 +307,26 @@ public class TotoGameBody extends JFrame {
 		lblPrice.setBounds(100, 640, 400, 40);
 		contentPane.add(lblPrice);
 		lblPrice.setVisible(false);
-
+		
+		numbersMatrixPanel = new JPanel();
+		numbersMatrixPanel.setBounds(150, 120, 300, 300);
+		numbersMatrixPanel.setLayout(new GridLayout(7, 7));
+		contentPane.add(numbersMatrixPanel);
+		
+		btnPlayAgain = new JButton("Play Again");
+		btnPlayAgain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				TotoGameBody gameBody = new TotoGameBody();
+				gameBody.setVisible(true);
+			}
+		});
+		btnPlayAgain.setBackground(new Color(255, 153, 51));
+		btnPlayAgain.setFont(new Font("Tahoma", Font.BOLD, 24));
+		btnPlayAgain.setBounds(77, 241, 431, 112);
+		contentPane.add(btnPlayAgain);
+		btnPlayAgain.setVisible(false);
+		
 		Action numberAction = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -313,12 +335,8 @@ public class TotoGameBody extends JFrame {
 			}
 		};
 
-		int offsetX;
-		int offsetY;
 		int counter = 1;
 		for (int i = 0; i < 7; i++) {
-			offsetX = 0;
-			offsetY = 35 * i;
 			for (int j = 0; j < 7; j++) {
 				String text = String.valueOf(counter);
 				counter++;
@@ -341,9 +359,7 @@ public class TotoGameBody extends JFrame {
 				button.addActionListener(numberAction);
 				button.setFont(new Font("Tahoma", Font.PLAIN, 11));
 				button.setMargin(new Insets(0, 0, 0, 0));
-				button.setBounds(177 + offsetX, 125 + offsetY, 30, 30);
-				offsetX += 35;
-				contentPane.add(button);
+				numbersMatrixPanel.add(button);
 				UIManager.put("ToggleButton.select", Color.ORANGE);
 				SwingUtilities.updateComponentTreeUI(button);
 			}
@@ -398,7 +414,10 @@ public class TotoGameBody extends JFrame {
 		lblShowDraw.setVisible(true);
 		lblPrice.setVisible(true);
 		lblYouHave.setVisible(true);
+		btnPlayAgain.setVisible(true);
 		btnRun.setVisible(false);
+		lblPleaseSelect.setVisible(false);
+		numbersMatrixPanel.setVisible(false);
 	}
 
 	private void showDrawNumbers(int[] totoNumbers) {
@@ -421,7 +440,7 @@ public class TotoGameBody extends JFrame {
 		setRunButtonVisible(userNumbersCounter);
 		userNumbersArr = sortArrays(userNumbersArr);
 		showUserNumbers(userNumbersArr);
-		System.out.println(" array - " + Arrays.toString(userNumbersArr));
+		//System.out.println(" array - " + Arrays.toString(userNumbersArr));
 	}
 
 	private void removeNumberFromUserNumbers(int number) {
