@@ -25,6 +25,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class TotoGameBody extends JFrame {
 	public JButton btnRun;
@@ -34,7 +36,14 @@ public class TotoGameBody extends JFrame {
 	public int[] totoNumbersArrSecondRound = new int[6];
 	public int[] totoNumbersArrThirdRound = new int[6];
 	private JPanel contentPane;
-	private JTextField userNumbers;
+	private JLabel lblPleaseSelect;
+	private JLabel lblOurNumbers;
+	private JTextField userNumberOne;
+	private JTextField userNumberTwo;
+	private JTextField userNumberThree;
+	private JTextField userNumberFour;
+	private JTextField userNumberFive;
+	private JTextField userNumberSix;
 
 	/**
 	 * Launch the application.
@@ -64,11 +73,6 @@ public class TotoGameBody extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		userNumbers = new JTextField();
-		userNumbers.setBounds(43, 35, 512, 45);
-		contentPane.add(userNumbers);
-		userNumbers.setColumns(10);
-
 		btnRun = new JButton("Run");
 		btnRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -77,13 +81,58 @@ public class TotoGameBody extends JFrame {
 		});
 		btnRun.setBounds(466, 527, 89, 23);
 		contentPane.add(btnRun);
+		
+		lblPleaseSelect = new JLabel("Please select 6 numbers");
+		lblPleaseSelect.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPleaseSelect.setBounds(33, 22, 522, 53);
+		contentPane.add(lblPleaseSelect);
+		
+		lblOurNumbers = new JLabel("Your numbers");
+		lblOurNumbers.setBounds(21, 86, 89, 14);
+		contentPane.add(lblOurNumbers);
+		
+		userNumberOne = new JTextField();
+		userNumberOne.setHorizontalAlignment(SwingConstants.CENTER);
+		userNumberOne.setBounds(103, 73, 40, 40);
+		contentPane.add(userNumberOne);
+		userNumberOne.setColumns(10);
+		
+		userNumberTwo = new JTextField();
+		userNumberTwo.setHorizontalAlignment(SwingConstants.CENTER);
+		userNumberTwo.setColumns(10);
+		userNumberTwo.setBounds(153, 73, 40, 40);
+		contentPane.add(userNumberTwo);
+		
+		userNumberThree = new JTextField();
+		userNumberThree.setHorizontalAlignment(SwingConstants.CENTER);
+		userNumberThree.setColumns(10);
+		userNumberThree.setBounds(203, 73, 40, 40);
+		contentPane.add(userNumberThree);
+		
+		userNumberFour = new JTextField();
+		userNumberFour.setHorizontalAlignment(SwingConstants.CENTER);
+		userNumberFour.setColumns(10);
+		userNumberFour.setBounds(253, 73, 40, 40);
+		contentPane.add(userNumberFour);
+		
+		userNumberFive = new JTextField();
+		userNumberFive.setHorizontalAlignment(SwingConstants.CENTER);
+		userNumberFive.setColumns(10);
+		userNumberFive.setBounds(303, 73, 40, 40);
+		contentPane.add(userNumberFive);
+		
+		userNumberSix = new JTextField();
+		userNumberSix.setHorizontalAlignment(SwingConstants.CENTER);
+		userNumberSix.setColumns(10);
+		userNumberSix.setBounds(353, 73, 40, 40);
+		contentPane.add(userNumberSix);
 		btnRun.setVisible(false);
 
 		Action numberAction = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				userNumbers.replaceSelection(e.getActionCommand());
-				userNumbers.replaceSelection(", ");
+				//userNumbers.replaceSelection(e.getActionCommand());
+				//userNumbers.replaceSelection(", ");
 			}
 		};
 
@@ -103,11 +152,11 @@ public class TotoGameBody extends JFrame {
 						if (tBtn.isSelected()) {
 							System.out.println("button " + e.getActionCommand() + " selected");
 							int number = Integer.parseInt(e.getActionCommand());
-							addNumberToUserNumbers(number, "add");
+							addNumberToUserNumbers(number);
 						} else {
 							System.out.println("button " + e.getActionCommand() + " not selected");
 							int number = Integer.parseInt(e.getActionCommand());
-							removeNumberFromUserNumbers(number, "del");
+							removeNumberFromUserNumbers(number);
 						}
 					}
 
@@ -122,7 +171,7 @@ public class TotoGameBody extends JFrame {
 		}
 	}
 
-	private void addNumberToUserNumbers(int number, String addOrDel) {
+	private void addNumberToUserNumbers(int number) {
 		userNumbersCounter++;
 		for (int i = 0; i < userNumbersArr.length; i++) {
 			if (userNumbersArr[i] == 0) {
@@ -131,10 +180,12 @@ public class TotoGameBody extends JFrame {
 			}
 		}
 		setRunButtonVisible(userNumbersCounter);
+		userNumbersArr=sortArrays(userNumbersArr);
+		showUserNumbers(userNumbersArr);
 		System.out.println(" array - " + Arrays.toString(userNumbersArr));
 	}
 
-	private void removeNumberFromUserNumbers(int number, String addOrDel) {
+	private void removeNumberFromUserNumbers(int number) {
 		userNumbersCounter--;
 		for (int i = 0; i < userNumbersArr.length; i++) {
 			if (userNumbersArr[i] == number) {
@@ -142,7 +193,43 @@ public class TotoGameBody extends JFrame {
 			}
 		}
 		setRunButtonVisible(userNumbersCounter);
+		userNumbersArr=sortArrays(userNumbersArr);
+		showUserNumbers(userNumbersArr);
 		System.out.println(" array - " + Arrays.toString(userNumbersArr));
+	}
+	
+	private void showUserNumbers(int[] userNumbersArr2) {
+		if (userNumbersArr2[0]!=0){
+			userNumberOne.setText(Integer.toString(userNumbersArr2[0]));
+		} else {
+			userNumberOne.setText("");
+		}
+		if (userNumbersArr2[1]!=0){
+			userNumberTwo.setText(Integer.toString(userNumbersArr2[1]));
+		} else {
+			userNumberTwo.setText("");
+		}
+		if (userNumbersArr2[2]!=0){
+			userNumberThree.setText(Integer.toString(userNumbersArr2[2]));
+		} else {
+			userNumberThree.setText("");
+		}
+		if (userNumbersArr2[3]!=0){
+			userNumberFour.setText(Integer.toString(userNumbersArr2[3]));
+		} else {
+			userNumberFour.setText("");
+		}
+		if (userNumbersArr2[4]!=0){
+			userNumberFive.setText(Integer.toString(userNumbersArr2[4]));
+		} else {
+			userNumberFive.setText("");
+		}
+		if (userNumbersArr2[5]!=0){
+			userNumberSix.setText(Integer.toString(userNumbersArr2[5]));
+		} else {
+			userNumberSix.setText("");
+		}
+		
 	}
 
 	private void setRunButtonVisible(int userNumbersCounter2) {
