@@ -288,9 +288,9 @@ public class TotoGameBody extends JFrame {
 		drawNumberSix.setVisible(false);
 
 		lblShowDraw = new JLabel("Please, select a draw to see the numbers and what you win");
-		lblShowDraw.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblShowDraw.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblShowDraw.setHorizontalAlignment(SwingConstants.CENTER);
-		lblShowDraw.setBounds(111, 475, 362, 30);
+		lblShowDraw.setBounds(100, 475, 400, 30);
 		contentPane.add(lblShowDraw);
 		lblShowDraw.setVisible(false);
 

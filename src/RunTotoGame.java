@@ -42,10 +42,10 @@ public class RunTotoGame {
 	private void initialize() {
 		frmTotoGame = new JFrame();
 		frmTotoGame.setTitle("Toto Game");
-		frmTotoGame.setBounds(100, 100, 250, 250);
+		frmTotoGame.setBounds(10, 10, 250, 250);
 		frmTotoGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JButton btnNewButton = new JButton("Run game");
+		JButton btnNewButton = new JButton("Start game");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -54,16 +54,25 @@ public class RunTotoGame {
 				gameBody.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(55, 162, 126, 23);
-		frmTotoGame.add(btnNewButton);
+		frmTotoGame.getContentPane().setLayout(null);
+		btnNewButton.setBounds(40, 150, 150, 30);
+		frmTotoGame.getContentPane().add(btnNewButton);
 
-		JLabel lblWelcome = new JLabel("WELCOME");
+		JLabel lblWelcome = new JLabel("WELCOME TO");
 		lblWelcome.setBackground(new Color(153, 255, 204));
 		lblWelcome.setForeground(new Color(153, 0, 0));
 		lblWelcome.setFont(new Font("Tahoma", Font.BOLD, 26));
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWelcome.setBounds(35, 25, 160, 120);
-		frmTotoGame.add(lblWelcome);
+		lblWelcome.setBounds(0, 25, 234, 60);
+		frmTotoGame.getContentPane().add(lblWelcome);
+		
+		JLabel lblToto = new JLabel("TOTO");
+		lblToto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblToto.setForeground(new Color(153, 0, 0));
+		lblToto.setFont(new Font("Tahoma", Font.BOLD, 26));
+		lblToto.setBackground(new Color(153, 255, 204));
+		lblToto.setBounds(0, 82, 234, 60);
+		frmTotoGame.getContentPane().add(lblToto);
 
 	}
 
