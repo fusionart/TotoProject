@@ -39,6 +39,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TotoGameBody extends JFrame {
+	public Boolean buttonsDisabled = false;
+	public JToggleButton matrixButtons[];
+	public JToggleButton tBtn;
 	public JPanel numbersMatrixPanel;
 	public JButton btnRun;
 	public JToggleButton button;
@@ -352,21 +355,20 @@ public class TotoGameBody extends JFrame {
 		numberAction = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// userNumbers.replaceSelection(e.getActionCommand());
-				// userNumbers.replaceSelection(", ");
+
 			}
 		};
 		// Creates numbers matrix
-		createMatrix();
+		createMatrixArr();
 	}
 
-	private void createMatrix() {
-		for (int j = 1; j <= 49; j++) {
-			String text = String.valueOf(j);
-			button = new JToggleButton(text);
-			button.addActionListener(new ActionListener() {
+	private void createMatrixArr() {
+		matrixButtons = new JToggleButton[49];
+		for (int j = 0; j < matrixButtons.length; j++) {
+			matrixButtons[j] = new JToggleButton(String.valueOf(j + 1));
+			matrixButtons[j].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JToggleButton tBtn = (JToggleButton) e.getSource();
+					tBtn = (JToggleButton) e.getSource();
 					if (tBtn.isSelected()) {
 						int number = Integer.parseInt(e.getActionCommand());
 						addNumberToUserNumbers(number);
@@ -376,14 +378,35 @@ public class TotoGameBody extends JFrame {
 					}
 				}
 			});
-			button.addActionListener(numberAction);
-			button.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			button.setMargin(new Insets(0, 0, 0, 0));
-			numbersMatrixPanel.add(button);
+			matrixButtons[j].addActionListener(numberAction);
+			matrixButtons[j].setFont(new Font("Tahoma", Font.PLAIN, 11));
+			matrixButtons[j].setMargin(new Insets(0, 0, 0, 0));
+			numbersMatrixPanel.add(matrixButtons[j]);
 			UIManager.put("ToggleButton.select", Color.ORANGE);
-			SwingUtilities.updateComponentTreeUI(button);
+			SwingUtilities.updateComponentTreeUI(matrixButtons[j]);
 		}
+	}
 
+	private void setMatrixButtonsDisable() {
+		Boolean found = false;
+		buttonsDisabled = true;
+		for (int i = 0; i < matrixButtons.length; i++) {
+			found = false;
+			for (int j = 0; j < userNumbersArr.length; j++) {
+				if (userNumbersArr[j] == i + 1) {
+					found = true;
+				}
+			}
+			if (!found) {
+				matrixButtons[i].setEnabled(false);
+			}
+		}
+	}
+
+	private void setMatrixButtonsEnable() {
+		for (int i = 0; i < matrixButtons.length; i++) {
+			matrixButtons[i].setEnabled(true);
+		}
 	}
 
 	private void numbersGuessed(int[] totoNumbers) {
@@ -460,7 +483,6 @@ public class TotoGameBody extends JFrame {
 		setRunButtonVisible(userNumbersCounter);
 		userNumbersArr = sortArrays(userNumbersArr);
 		showUserNumbers(userNumbersArr);
-		// System.out.println(" array - " + Arrays.toString(userNumbersArr));
 	}
 
 	private void removeNumberFromUserNumbers(int number) {
@@ -473,7 +495,6 @@ public class TotoGameBody extends JFrame {
 		setRunButtonVisible(userNumbersCounter);
 		userNumbersArr = sortArrays(userNumbersArr);
 		showUserNumbers(userNumbersArr);
-		// System.out.println(" array - " + Arrays.toString(userNumbersArr));
 	}
 
 	private void showUserNumbers(int[] userNumbersArr2) {
@@ -513,10 +534,12 @@ public class TotoGameBody extends JFrame {
 	private void setRunButtonVisible(int userNumbersCounter2) {
 		if (userNumbersCounter == 6) {
 			btnRun.setVisible(true);
-			button.setVisible(false);
+			setMatrixButtonsDisable();
 		} else {
 			btnRun.setVisible(false);
-			button.setVisible(true);
+			if (buttonsDisabled) {
+				setMatrixButtonsEnable();
+			}
 		}
 	}
 
@@ -538,7 +561,6 @@ public class TotoGameBody extends JFrame {
 			totoNumbersArrFirstRound[i] = rnmNum;
 		}
 		totoNumbersArrFirstRound = sortArrays(totoNumbersArrFirstRound);
-		// System.out.println(Arrays.toString(totoNumbersArrFirstRound));
 	}
 
 	private void totoNumbersRoundTwo() {
@@ -558,7 +580,6 @@ public class TotoGameBody extends JFrame {
 			totoNumbersArrSecondRound[i] = rnmNum;
 		}
 		totoNumbersArrSecondRound = sortArrays(totoNumbersArrSecondRound);
-		// System.out.println(Arrays.toString(totoNumbersArrSecondRound));
 	}
 
 	private void totoNumbersRoundThree() {
@@ -578,7 +599,6 @@ public class TotoGameBody extends JFrame {
 			totoNumbersArrThirdRound[i] = rnmNum;
 		}
 		totoNumbersArrThirdRound = sortArrays(totoNumbersArrThirdRound);
-		// System.out.println(Arrays.toString(totoNumbersArrThirdRound));
 	}
 
 	private int[] sortArrays(int[] arrayToSort) {
