@@ -104,21 +104,50 @@ public class TotoGameBody extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		btnRun = new JButton("Let's play TOTO");
-		btnRun.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnRun.setBackground(new Color(102, 153, 204));
-		btnRun.addActionListener(new ActionListener() {
+		numberAction = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				totoNumbersRoundOne();
-				totoNumbersRoundTwo();
-				totoNumbersRoundThree();
-				showAdditionlInfo();
 			}
-		});
-		btnRun.setBounds(177, 435, 240, 30);
-		contentPane.add(btnRun);
-		btnRun.setVisible(false);
+		};
+		// Creates GUI
+		createNumbersMatrix();
+		createUserNumbersVisualization();
+		playTotoBtn();
+	}
 
+	private void createNumbersMatrix() {
+		numbersMatrixPanel = new JPanel();
+		numbersMatrixPanel.setForeground(new Color(255, 255, 255));
+		numbersMatrixPanel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(51, 0, 51)));
+		numbersMatrixPanel.setBounds(150, 120, 300, 300);
+		numbersMatrixPanel.setLayout(new GridLayout(0, 7));
+		contentPane.add(numbersMatrixPanel);
+		matrixButtons = new JToggleButton[49];
+		for (int j = 0; j < matrixButtons.length; j++) {
+			matrixButtons[j] = new JToggleButton(String.valueOf(j + 1));
+			matrixButtons[j].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					tBtn = (JToggleButton) e.getSource();
+					if (tBtn.isSelected()) {
+						int number = Integer.parseInt(e.getActionCommand());
+						addNumberToUserNumbers(number);
+					} else {
+						int number = Integer.parseInt(e.getActionCommand());
+						removeNumberFromUserNumbers(number);
+					}
+				}
+			});
+			matrixButtons[j].addActionListener(numberAction);
+			matrixButtons[j].setFont(new Font("Tahoma", Font.PLAIN, 11));
+			matrixButtons[j].setMargin(new Insets(0, 0, 0, 0));
+			numbersMatrixPanel.add(matrixButtons[j]);
+			UIManager.put("ToggleButton.select", Color.ORANGE);
+			SwingUtilities.updateComponentTreeUI(matrixButtons[j]);
+		}
+		addNumberMatrixTextInfo();
+	}
+
+	private void addNumberMatrixTextInfo() {
 		lblPleaseSelect = new JLabel("Please select 6 numbers");
 		lblPleaseSelect.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblPleaseSelect.setHorizontalAlignment(SwingConstants.CENTER);
@@ -130,7 +159,31 @@ public class TotoGameBody extends JFrame {
 		lblOurNumbers.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOurNumbers.setBounds(220, 15, 160, 20);
 		contentPane.add(lblOurNumbers);
+	}
 
+	private void setMatrixButtonsDisable() {
+		Boolean found = false;
+		buttonsDisabled = true;
+		for (int i = 0; i < matrixButtons.length; i++) {
+			found = false;
+			for (int j = 0; j < userNumbersArr.length; j++) {
+				if (userNumbersArr[j] == i + 1) {
+					found = true;
+				}
+			}
+			if (!found) {
+				matrixButtons[i].setEnabled(false);
+			}
+		}
+	}
+
+	private void setMatrixButtonsEnable() {
+		for (int i = 0; i < matrixButtons.length; i++) {
+			matrixButtons[i].setEnabled(true);
+		}
+	}
+
+	private void createUserNumbersVisualization() {
 		userNumberOne = new JTextField();
 		userNumberOne.setForeground(new Color(204, 0, 0));
 		userNumberOne.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -190,46 +243,9 @@ public class TotoGameBody extends JFrame {
 		userNumberSix.setColumns(10);
 		userNumberSix.setBounds(405, 50, 40, 40);
 		contentPane.add(userNumberSix);
+	}
 
-		rdbtnDrawOne = new JRadioButton("Draw One");
-		rdbtnDrawOne.setFont(new Font("Tahoma", Font.BOLD, 12));
-		rdbtnDrawOne.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showDrawNumbers(totoNumbersArrFirstRound);
-				numbersGuessed(totoNumbersArrFirstRound);
-			}
-		});
-		buttonGroup.add(rdbtnDrawOne);
-		rdbtnDrawOne.setBounds(149, 507, 85, 23);
-		contentPane.add(rdbtnDrawOne);
-		rdbtnDrawOne.setVisible(false);
-
-		rdbtnDrawTwo = new JRadioButton("Draw Two");
-		rdbtnDrawTwo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		rdbtnDrawTwo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showDrawNumbers(totoNumbersArrSecondRound);
-				numbersGuessed(totoNumbersArrSecondRound);
-			}
-		});
-		buttonGroup.add(rdbtnDrawTwo);
-		rdbtnDrawTwo.setBounds(247, 507, 98, 23);
-		contentPane.add(rdbtnDrawTwo);
-		rdbtnDrawTwo.setVisible(false);
-
-		rdbtnDrawThree = new JRadioButton("Draw Three");
-		rdbtnDrawThree.setFont(new Font("Tahoma", Font.BOLD, 12));
-		rdbtnDrawThree.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showDrawNumbers(totoNumbersArrThirdRound);
-				numbersGuessed(totoNumbersArrThirdRound);
-			}
-		});
-		buttonGroup.add(rdbtnDrawThree);
-		rdbtnDrawThree.setBounds(347, 507, 98, 23);
-		contentPane.add(rdbtnDrawThree);
-		rdbtnDrawThree.setVisible(false);
-
+	private void createDrawNumbersVisualization() {
 		drawNumberOne = new JTextField();
 		drawNumberOne.setHorizontalAlignment(SwingConstants.CENTER);
 		drawNumberOne.setForeground(new Color(0, 0, 0));
@@ -239,7 +255,6 @@ public class TotoGameBody extends JFrame {
 		drawNumberOne.setBackground(new Color(255, 204, 51));
 		drawNumberOne.setBounds(155, 547, 40, 40);
 		contentPane.add(drawNumberOne);
-		drawNumberOne.setVisible(false);
 
 		drawNumberTwo = new JTextField();
 		drawNumberTwo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -250,7 +265,6 @@ public class TotoGameBody extends JFrame {
 		drawNumberTwo.setBackground(new Color(255, 204, 51));
 		drawNumberTwo.setBounds(205, 547, 40, 40);
 		contentPane.add(drawNumberTwo);
-		drawNumberTwo.setVisible(false);
 
 		drawNumberThree = new JTextField();
 		drawNumberThree.setHorizontalAlignment(SwingConstants.CENTER);
@@ -261,7 +275,6 @@ public class TotoGameBody extends JFrame {
 		drawNumberThree.setBackground(new Color(255, 204, 51));
 		drawNumberThree.setBounds(255, 547, 40, 40);
 		contentPane.add(drawNumberThree);
-		drawNumberThree.setVisible(false);
 
 		drawNumberFour = new JTextField();
 		drawNumberFour.setHorizontalAlignment(SwingConstants.CENTER);
@@ -272,7 +285,6 @@ public class TotoGameBody extends JFrame {
 		drawNumberFour.setBackground(new Color(255, 204, 51));
 		drawNumberFour.setBounds(305, 547, 40, 40);
 		contentPane.add(drawNumberFour);
-		drawNumberFour.setVisible(false);
 
 		drawNumberFive = new JTextField();
 		drawNumberFive.setHorizontalAlignment(SwingConstants.CENTER);
@@ -283,7 +295,6 @@ public class TotoGameBody extends JFrame {
 		drawNumberFive.setBackground(new Color(255, 204, 51));
 		drawNumberFive.setBounds(355, 547, 40, 40);
 		contentPane.add(drawNumberFive);
-		drawNumberFive.setVisible(false);
 
 		drawNumberSix = new JTextField();
 		drawNumberSix.setHorizontalAlignment(SwingConstants.CENTER);
@@ -294,36 +305,76 @@ public class TotoGameBody extends JFrame {
 		drawNumberSix.setBackground(new Color(255, 204, 51));
 		drawNumberSix.setBounds(405, 547, 40, 40);
 		contentPane.add(drawNumberSix);
-		drawNumberSix.setVisible(false);
+	}
 
-		lblShowDraw = new JLabel("Please, select a draw to see the numbers and what you win");
-		lblShowDraw.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblShowDraw.setHorizontalAlignment(SwingConstants.CENTER);
-		lblShowDraw.setBounds(100, 475, 400, 30);
-		contentPane.add(lblShowDraw);
-		lblShowDraw.setVisible(false);
+	private void createRadioButtonsForDraw() {
+		rdbtnDrawOne = new JRadioButton("Draw One");
+		rdbtnDrawOne.setFont(new Font("Tahoma", Font.BOLD, 12));
+		rdbtnDrawOne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showDrawNumbers(totoNumbersArrFirstRound);
+				numbersGuessed(totoNumbersArrFirstRound);
+			}
+		});
+		buttonGroup.add(rdbtnDrawOne);
+		rdbtnDrawOne.setBounds(150, 510, 85, 25);
+		contentPane.add(rdbtnDrawOne);
 
-		lblYouHave = new JLabel("");
-		lblYouHave.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblYouHave.setHorizontalAlignment(SwingConstants.CENTER);
-		lblYouHave.setBounds(100, 610, 400, 20);
-		contentPane.add(lblYouHave);
-		lblYouHave.setVisible(false);
+		rdbtnDrawTwo = new JRadioButton("Draw Two");
+		rdbtnDrawTwo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		rdbtnDrawTwo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showDrawNumbers(totoNumbersArrSecondRound);
+				numbersGuessed(totoNumbersArrSecondRound);
+			}
+		});
+		buttonGroup.add(rdbtnDrawTwo);
+		rdbtnDrawTwo.setBounds(250, 510, 100, 25);
+		contentPane.add(rdbtnDrawTwo);
 
-		lblPrice = new JLabel("");
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPrice.setBounds(100, 640, 400, 40);
-		contentPane.add(lblPrice);
-		lblPrice.setVisible(false);
+		rdbtnDrawThree = new JRadioButton("Draw Three");
+		rdbtnDrawThree.setFont(new Font("Tahoma", Font.BOLD, 12));
+		rdbtnDrawThree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showDrawNumbers(totoNumbersArrThirdRound);
+				numbersGuessed(totoNumbersArrThirdRound);
+			}
+		});
+		buttonGroup.add(rdbtnDrawThree);
+		rdbtnDrawThree.setBounds(350, 510, 100, 25);
+		contentPane.add(rdbtnDrawThree);
+	}
 
-		numbersMatrixPanel = new JPanel();
-		numbersMatrixPanel.setForeground(new Color(255, 255, 255));
-		numbersMatrixPanel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(51, 0, 51)));
-		numbersMatrixPanel.setBounds(150, 120, 300, 300);
-		numbersMatrixPanel.setLayout(new GridLayout(0, 7));
-		contentPane.add(numbersMatrixPanel);
+	private void playTotoBtn() {
+		btnRun = new JButton("Let's play TOTO");
+		btnRun.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnRun.setBackground(new Color(102, 153, 204));
+		btnRun.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				totoNumbersRoundOne();
+				totoNumbersRoundTwo();
+				totoNumbersRoundThree();
+				showGameResults();
+			}
+		});
+		btnRun.setBounds(150, 435, 300, 35);
+		contentPane.add(btnRun);
+		btnRun.setVisible(false);
+	}
 
+	private void setRunButtonVisible(int userNumbersCounter2) {
+		if (userNumbersCounter == 6) {
+			btnRun.setVisible(true);
+			setMatrixButtonsDisable();
+		} else {
+			btnRun.setVisible(false);
+			if (buttonsDisabled) {
+				setMatrixButtonsEnable();
+			}
+		}
+	}
+
+	private void playAgainBtn() {
 		btnPlayAgain = new JButton("Play Again");
 		btnPlayAgain.addMouseListener(new MouseAdapter() {
 			@Override
@@ -350,63 +401,38 @@ public class TotoGameBody extends JFrame {
 		btnPlayAgain.setBounds(70, 220, 440, 120);
 		btnPlayAgain.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(153, 0, 0)));
 		contentPane.add(btnPlayAgain);
-		btnPlayAgain.setVisible(false);
-
-		numberAction = new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		};
-		// Creates numbers matrix
-		createMatrixArr();
 	}
 
-	private void createMatrixArr() {
-		matrixButtons = new JToggleButton[49];
-		for (int j = 0; j < matrixButtons.length; j++) {
-			matrixButtons[j] = new JToggleButton(String.valueOf(j + 1));
-			matrixButtons[j].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					tBtn = (JToggleButton) e.getSource();
-					if (tBtn.isSelected()) {
-						int number = Integer.parseInt(e.getActionCommand());
-						addNumberToUserNumbers(number);
-					} else {
-						int number = Integer.parseInt(e.getActionCommand());
-						removeNumberFromUserNumbers(number);
-					}
-				}
-			});
-			matrixButtons[j].addActionListener(numberAction);
-			matrixButtons[j].setFont(new Font("Tahoma", Font.PLAIN, 11));
-			matrixButtons[j].setMargin(new Insets(0, 0, 0, 0));
-			numbersMatrixPanel.add(matrixButtons[j]);
-			UIManager.put("ToggleButton.select", Color.ORANGE);
-			SwingUtilities.updateComponentTreeUI(matrixButtons[j]);
-		}
+	private void createAddionalInfo() {
+		lblShowDraw = new JLabel("Please, select a draw to see the numbers and what you win");
+		lblShowDraw.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblShowDraw.setHorizontalAlignment(SwingConstants.CENTER);
+		lblShowDraw.setBounds(100, 475, 400, 30);
+		contentPane.add(lblShowDraw);
+
+		lblYouHave = new JLabel("");
+		lblYouHave.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblYouHave.setHorizontalAlignment(SwingConstants.CENTER);
+		lblYouHave.setBounds(100, 610, 400, 20);
+		contentPane.add(lblYouHave);
+
+		lblPrice = new JLabel("");
+		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPrice.setBounds(100, 640, 400, 40);
+		contentPane.add(lblPrice);
 	}
 
-	private void setMatrixButtonsDisable() {
-		Boolean found = false;
-		buttonsDisabled = true;
-		for (int i = 0; i < matrixButtons.length; i++) {
-			found = false;
-			for (int j = 0; j < userNumbersArr.length; j++) {
-				if (userNumbersArr[j] == i + 1) {
-					found = true;
-				}
-			}
-			if (!found) {
-				matrixButtons[i].setEnabled(false);
-			}
-		}
-	}
-
-	private void setMatrixButtonsEnable() {
-		for (int i = 0; i < matrixButtons.length; i++) {
-			matrixButtons[i].setEnabled(true);
-		}
+	private void showGameResults() {
+		btnRun.setVisible(false);
+		lblPleaseSelect.setVisible(false);
+		numbersMatrixPanel.setVisible(false);
+		createRadioButtonsForDraw();
+		createDrawNumbersVisualization();
+		createAddionalInfo();
+		playAgainBtn();
+		revalidate();
+		repaint();
 	}
 
 	private void numbersGuessed(int[] totoNumbers) {
@@ -442,25 +468,6 @@ public class TotoGameBody extends JFrame {
 			break;
 		}
 
-	}
-
-	private void showAdditionlInfo() {
-		drawNumberOne.setVisible(true);
-		drawNumberTwo.setVisible(true);
-		drawNumberThree.setVisible(true);
-		drawNumberFour.setVisible(true);
-		drawNumberFive.setVisible(true);
-		drawNumberSix.setVisible(true);
-		rdbtnDrawOne.setVisible(true);
-		rdbtnDrawTwo.setVisible(true);
-		rdbtnDrawThree.setVisible(true);
-		lblShowDraw.setVisible(true);
-		lblPrice.setVisible(true);
-		lblYouHave.setVisible(true);
-		btnPlayAgain.setVisible(true);
-		btnRun.setVisible(false);
-		lblPleaseSelect.setVisible(false);
-		numbersMatrixPanel.setVisible(false);
 	}
 
 	private void showDrawNumbers(int[] totoNumbers) {
@@ -529,18 +536,6 @@ public class TotoGameBody extends JFrame {
 			userNumberSix.setText("");
 		}
 
-	}
-
-	private void setRunButtonVisible(int userNumbersCounter2) {
-		if (userNumbersCounter == 6) {
-			btnRun.setVisible(true);
-			setMatrixButtonsDisable();
-		} else {
-			btnRun.setVisible(false);
-			if (buttonsDisabled) {
-				setMatrixButtonsEnable();
-			}
-		}
 	}
 
 	// Toto numbers for three rounds, randomly generated
