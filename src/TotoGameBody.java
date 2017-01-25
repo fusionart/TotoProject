@@ -36,6 +36,7 @@ public class TotoGameBody extends JFrame {
 	public JButton btnRun;
 	public JToggleButton button;
 	public int userNumbersCounter = 0;
+	public int numbersGuessed;
 	public int[] userNumbersArr = { 0, 0, 0, 0, 0, 0 };
 	public int[] totoNumbersArrFirstRound = new int[6];
 	public int[] totoNumbersArrSecondRound = new int[6];
@@ -61,7 +62,7 @@ public class TotoGameBody extends JFrame {
 	private JRadioButton rdbtnDrawThree;
 	private JLabel lblShowDraw;
 	private JLabel lblYouHave;
-	private JLabel lblPrice;
+	public JLabel lblPrice;
 
 	/**
 	 * Launch the application.
@@ -183,6 +184,7 @@ public class TotoGameBody extends JFrame {
 		rdbtnDrawOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showDrawNumbers(totoNumbersArrFirstRound);
+				numbersGuessed(totoNumbersArrFirstRound);
 			}
 		});
 		buttonGroup.add(rdbtnDrawOne);
@@ -195,6 +197,7 @@ public class TotoGameBody extends JFrame {
 		rdbtnDrawTwo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showDrawNumbers(totoNumbersArrSecondRound);
+				numbersGuessed(totoNumbersArrSecondRound);
 			}
 		});
 		buttonGroup.add(rdbtnDrawTwo);
@@ -207,6 +210,7 @@ public class TotoGameBody extends JFrame {
 		rdbtnDrawThree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showDrawNumbers(totoNumbersArrThirdRound);
+				numbersGuessed(totoNumbersArrThirdRound);
 			}
 		});
 		buttonGroup.add(rdbtnDrawThree);
@@ -279,25 +283,25 @@ public class TotoGameBody extends JFrame {
 		drawNumberSix.setBounds(405, 547, 40, 40);
 		contentPane.add(drawNumberSix);
 		drawNumberSix.setVisible(false);
-		
+
 		lblShowDraw = new JLabel("Please, select a draw to see the numbers and what you win");
 		lblShowDraw.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblShowDraw.setHorizontalAlignment(SwingConstants.CENTER);
 		lblShowDraw.setBounds(111, 475, 362, 30);
 		contentPane.add(lblShowDraw);
 		lblShowDraw.setVisible(false);
-		
-		lblYouHave = new JLabel("You have xxx numbers and your price is:");
+
+		lblYouHave = new JLabel("");
 		lblYouHave.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblYouHave.setHorizontalAlignment(SwingConstants.CENTER);
-		lblYouHave.setBounds(120, 610, 360, 20);
+		lblYouHave.setBounds(100, 610, 400, 20);
 		contentPane.add(lblYouHave);
 		lblYouHave.setVisible(false);
-		
-		lblPrice = new JLabel("New label");
+
+		lblPrice = new JLabel("");
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPrice.setBounds(200, 640, 200, 40);
+		lblPrice.setBounds(100, 640, 400, 40);
 		contentPane.add(lblPrice);
 		lblPrice.setVisible(false);
 
@@ -323,11 +327,11 @@ public class TotoGameBody extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						JToggleButton tBtn = (JToggleButton) e.getSource();
 						if (tBtn.isSelected()) {
-							System.out.println("button " + e.getActionCommand() + " selected");
+							//System.out.println("button " + e.getActionCommand() + " selected");
 							int number = Integer.parseInt(e.getActionCommand());
 							addNumberToUserNumbers(number);
 						} else {
-							System.out.println("button " + e.getActionCommand() + " not selected");
+							//System.out.println("button " + e.getActionCommand() + " not selected");
 							int number = Integer.parseInt(e.getActionCommand());
 							removeNumberFromUserNumbers(number);
 						}
@@ -346,7 +350,42 @@ public class TotoGameBody extends JFrame {
 		}
 	}
 
-	protected void showAdditionlInfo() {
+	private void numbersGuessed(int[] totoNumbers) {
+		numbersGuessed = 0;
+		for (int i = 0; i < totoNumbers.length; i++) {
+			for (int j = 0; j < totoNumbers.length; j++) {
+				if (userNumbersArr[i]==totoNumbers[j]){
+					numbersGuessed++;
+				}
+			}
+		}
+		lblYouHave.setText("You have "+Integer.toString(numbersGuessed)+" numbers and your price is:");
+		showPrice(numbersGuessed);
+	}
+
+	private void showPrice(int numbersGuessed) {
+		switch (numbersGuessed) {
+		case 3:
+			lblPrice.setText("4,00");
+			break;
+		case 4:
+			lblPrice.setText("80,00");
+			break;
+		case 5:
+			lblPrice.setText("5000,00");
+			break;
+		case 6:
+			lblPrice.setText("1 000 000,00");
+			break;
+
+		default:
+			lblPrice.setText("You didn't win. Try again.");
+			break;
+		}
+		
+	}
+
+	private void showAdditionlInfo() {
 		drawNumberOne.setVisible(true);
 		drawNumberTwo.setVisible(true);
 		drawNumberThree.setVisible(true);
@@ -361,6 +400,7 @@ public class TotoGameBody extends JFrame {
 		lblYouHave.setVisible(true);
 		btnRun.setVisible(false);
 	}
+
 	private void showDrawNumbers(int[] totoNumbers) {
 		drawNumberOne.setText(Integer.toString(totoNumbers[0]));
 		drawNumberTwo.setText(Integer.toString(totoNumbers[1]));
@@ -394,7 +434,7 @@ public class TotoGameBody extends JFrame {
 		setRunButtonVisible(userNumbersCounter);
 		userNumbersArr = sortArrays(userNumbersArr);
 		showUserNumbers(userNumbersArr);
-		System.out.println(" array - " + Arrays.toString(userNumbersArr));
+		//System.out.println(" array - " + Arrays.toString(userNumbersArr));
 	}
 
 	private void showUserNumbers(int[] userNumbersArr2) {
@@ -457,7 +497,7 @@ public class TotoGameBody extends JFrame {
 			totoNumbersArrFirstRound[i] = rnmNum;
 		}
 		totoNumbersArrFirstRound = sortArrays(totoNumbersArrFirstRound);
-		System.out.println(Arrays.toString(totoNumbersArrFirstRound));
+		//System.out.println(Arrays.toString(totoNumbersArrFirstRound));
 	}
 
 	private void totoNumbersRoundTwo() {
@@ -477,7 +517,7 @@ public class TotoGameBody extends JFrame {
 			totoNumbersArrSecondRound[i] = rnmNum;
 		}
 		totoNumbersArrSecondRound = sortArrays(totoNumbersArrSecondRound);
-		System.out.println(Arrays.toString(totoNumbersArrSecondRound));
+		//System.out.println(Arrays.toString(totoNumbersArrSecondRound));
 	}
 
 	private void totoNumbersRoundThree() {
@@ -497,7 +537,7 @@ public class TotoGameBody extends JFrame {
 			totoNumbersArrThirdRound[i] = rnmNum;
 		}
 		totoNumbersArrThirdRound = sortArrays(totoNumbersArrThirdRound);
-		System.out.println(Arrays.toString(totoNumbersArrThirdRound));
+		//System.out.println(Arrays.toString(totoNumbersArrThirdRound));
 	}
 
 	private int[] sortArrays(int[] arrayToSort) {
