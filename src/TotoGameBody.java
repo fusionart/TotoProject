@@ -98,7 +98,7 @@ public class TotoGameBody extends JFrame {
 	public TotoGameBody() {
 		setTitle("Toto Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 750);
+		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(255, 102, 0)));
 		setContentPane(contentPane);
@@ -119,7 +119,7 @@ public class TotoGameBody extends JFrame {
 		numbersMatrixPanel = new JPanel();
 		numbersMatrixPanel.setForeground(new Color(255, 255, 255));
 		numbersMatrixPanel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(51, 0, 51)));
-		numbersMatrixPanel.setBounds(150, 120, 300, 300);
+		numbersMatrixPanel.setBounds(150, 150, 300, 300);
 		numbersMatrixPanel.setLayout(new GridLayout(0, 7));
 		contentPane.add(numbersMatrixPanel);
 		matrixButtons = new JToggleButton[49];
@@ -151,7 +151,7 @@ public class TotoGameBody extends JFrame {
 		lblPleaseSelect = new JLabel("Please select 6 numbers");
 		lblPleaseSelect.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblPleaseSelect.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPleaseSelect.setBounds(200, 100, 200, 20);
+		lblPleaseSelect.setBounds(200, 115, 200, 20);
 		contentPane.add(lblPleaseSelect);
 
 		lblOurNumbers = new JLabel("Your numbers");
@@ -246,6 +246,7 @@ public class TotoGameBody extends JFrame {
 	}
 
 	private void createDrawNumbersVisualization() {
+		int yPos = 210;
 		drawNumberOne = new JTextField();
 		drawNumberOne.setHorizontalAlignment(SwingConstants.CENTER);
 		drawNumberOne.setForeground(new Color(0, 0, 0));
@@ -253,7 +254,7 @@ public class TotoGameBody extends JFrame {
 		drawNumberOne.setEditable(false);
 		drawNumberOne.setColumns(10);
 		drawNumberOne.setBackground(new Color(255, 204, 51));
-		drawNumberOne.setBounds(155, 547, 40, 40);
+		drawNumberOne.setBounds(155, yPos, 40, 40);
 		contentPane.add(drawNumberOne);
 
 		drawNumberTwo = new JTextField();
@@ -263,7 +264,7 @@ public class TotoGameBody extends JFrame {
 		drawNumberTwo.setEditable(false);
 		drawNumberTwo.setColumns(10);
 		drawNumberTwo.setBackground(new Color(255, 204, 51));
-		drawNumberTwo.setBounds(205, 547, 40, 40);
+		drawNumberTwo.setBounds(205, yPos, 40, 40);
 		contentPane.add(drawNumberTwo);
 
 		drawNumberThree = new JTextField();
@@ -273,7 +274,7 @@ public class TotoGameBody extends JFrame {
 		drawNumberThree.setEditable(false);
 		drawNumberThree.setColumns(10);
 		drawNumberThree.setBackground(new Color(255, 204, 51));
-		drawNumberThree.setBounds(255, 547, 40, 40);
+		drawNumberThree.setBounds(255, yPos, 40, 40);
 		contentPane.add(drawNumberThree);
 
 		drawNumberFour = new JTextField();
@@ -283,7 +284,7 @@ public class TotoGameBody extends JFrame {
 		drawNumberFour.setEditable(false);
 		drawNumberFour.setColumns(10);
 		drawNumberFour.setBackground(new Color(255, 204, 51));
-		drawNumberFour.setBounds(305, 547, 40, 40);
+		drawNumberFour.setBounds(305, yPos, 40, 40);
 		contentPane.add(drawNumberFour);
 
 		drawNumberFive = new JTextField();
@@ -293,7 +294,7 @@ public class TotoGameBody extends JFrame {
 		drawNumberFive.setEditable(false);
 		drawNumberFive.setColumns(10);
 		drawNumberFive.setBackground(new Color(255, 204, 51));
-		drawNumberFive.setBounds(355, 547, 40, 40);
+		drawNumberFive.setBounds(355, yPos, 40, 40);
 		contentPane.add(drawNumberFive);
 
 		drawNumberSix = new JTextField();
@@ -303,7 +304,7 @@ public class TotoGameBody extends JFrame {
 		drawNumberSix.setEditable(false);
 		drawNumberSix.setColumns(10);
 		drawNumberSix.setBackground(new Color(255, 204, 51));
-		drawNumberSix.setBounds(405, 547, 40, 40);
+		drawNumberSix.setBounds(405, yPos, 40, 40);
 		contentPane.add(drawNumberSix);
 	}
 
@@ -317,7 +318,7 @@ public class TotoGameBody extends JFrame {
 			}
 		});
 		buttonGroup.add(rdbtnDrawOne);
-		rdbtnDrawOne.setBounds(150, 510, 85, 25);
+		rdbtnDrawOne.setBounds(150, 160, 85, 25);
 		contentPane.add(rdbtnDrawOne);
 
 		rdbtnDrawTwo = new JRadioButton("Draw Two");
@@ -329,7 +330,7 @@ public class TotoGameBody extends JFrame {
 			}
 		});
 		buttonGroup.add(rdbtnDrawTwo);
-		rdbtnDrawTwo.setBounds(250, 510, 100, 25);
+		rdbtnDrawTwo.setBounds(250, 160, 100, 25);
 		contentPane.add(rdbtnDrawTwo);
 
 		rdbtnDrawThree = new JRadioButton("Draw Three");
@@ -341,7 +342,7 @@ public class TotoGameBody extends JFrame {
 			}
 		});
 		buttonGroup.add(rdbtnDrawThree);
-		rdbtnDrawThree.setBounds(350, 510, 100, 25);
+		rdbtnDrawThree.setBounds(350, 160, 100, 25);
 		contentPane.add(rdbtnDrawThree);
 	}
 
@@ -357,7 +358,7 @@ public class TotoGameBody extends JFrame {
 				showGameResults();
 			}
 		});
-		btnRun.setBounds(150, 435, 300, 35);
+		btnRun.setBounds(150, 480, 300, 35);
 		contentPane.add(btnRun);
 		btnRun.setVisible(false);
 	}
@@ -398,7 +399,7 @@ public class TotoGameBody extends JFrame {
 		});
 		btnPlayAgain.setBackground(new Color(255, 153, 51));
 		btnPlayAgain.setFont(new Font("Tahoma", Font.BOLD, 24));
-		btnPlayAgain.setBounds(70, 220, 440, 120);
+		btnPlayAgain.setBounds(70, 420, 440, 80);
 		btnPlayAgain.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(153, 0, 0)));
 		contentPane.add(btnPlayAgain);
 	}
@@ -407,19 +408,19 @@ public class TotoGameBody extends JFrame {
 		lblShowDraw = new JLabel("Please, select a draw to see the numbers and what you win");
 		lblShowDraw.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblShowDraw.setHorizontalAlignment(SwingConstants.CENTER);
-		lblShowDraw.setBounds(100, 475, 400, 30);
+		lblShowDraw.setBounds(100, 120, 400, 30);
 		contentPane.add(lblShowDraw);
 
 		lblYouHave = new JLabel("");
 		lblYouHave.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblYouHave.setHorizontalAlignment(SwingConstants.CENTER);
-		lblYouHave.setBounds(100, 610, 400, 20);
+		lblYouHave.setBounds(100, 270, 400, 20);
 		contentPane.add(lblYouHave);
 
 		lblPrice = new JLabel("");
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPrice.setBounds(100, 640, 400, 40);
+		lblPrice.setBounds(100, 300, 400, 40);
 		contentPane.add(lblPrice);
 	}
 
